@@ -6,6 +6,7 @@ const app = express();
 
 
 const database = require("./database/mongoConfig");
+const pacienteRoutes = require("./routes/pacienteRoutes");
 
 console.log("iniciando variaveis");
 
@@ -14,6 +15,8 @@ app.use(cors());
 
 console.log("iniciando express");
 app.use(express.json());
+
+app.use("/paciente", pacienteRoutes);
 
 database.connect();
 

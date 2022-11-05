@@ -1,3 +1,4 @@
+const { response } = require("express");
 const mongoose = require("mongoose");
 const PacienteSchema = require("../models/PacienteSchema");
 const pacienteSchema = require("../models/PacienteSchema");
@@ -28,8 +29,27 @@ const criarPaciente = async(requisicao, resposta) => {
     }
 }
 
+const buscarPaciente = async(require, response) => {
+    const { nome } = require.query;
 
+    let query = { };
+
+    if(nome) query.nome = new RegExp(nome, "i");
+
+    try {
+        const pacientes = await PacienteSchema.find(query);
+        response.status(200).json(pacientes);
+
+
+    } catch (error) {
+        response.status(500).json({
+            messagem: error.message
+        })
+    }
+}
 
 module.exports = {
-    criarPaciente
+    criarPaciente,
+    buscarPaciente
+    
 }
